@@ -25,14 +25,19 @@ public class MainClass {
 
 	public void mainLoop() {
 		while (mainLoopCondition) {
-			bewegenMitLinienScan(1);
+			bewegenMitLinienScan(5);
 			distanceBasedOnUnltrasonic = ultraSensor.getDistance();
-			if (distanceBasedOnUnltrasonic != noResultOnUltrasonic) {
+			
+			if(drehenMitSuchfunktion(30) < noResultOnUltrasonic){
+				System.out.println(drehenMitSuchfunktion(5));
 				gefundenesObjektAnsteuerungUndGreifen();
-				mainLoopCondition = false;
-				// TODO: dont do this later und returnToBase;
+			}else if(drehenMitSuchfunktion(-60) < noResultOnUltrasonic){
+				gefundenesObjektAnsteuerungUndGreifen();
+			}else if(drehenMitSuchfunktion(30) < noResultOnUltrasonic){
+				gefundenesObjektAnsteuerungUndGreifen();
 			}
-
+			
+			
 			if (emergencyButton.isPressed()) {
 				controllUnit.quickStop();
 				mainLoopCondition = false;
@@ -66,16 +71,32 @@ public class MainClass {
 			controllUnit.rotate(deg);
 			distanceBasedOnUnltrasonic = ultraSensor.getDistance();
 			if (distanceBasedOnUnltrasonic < noResultOnUltrasonic) {
-				return distanceBasedOnUnltrasonic / diameterOfWheel;
+				
+				try {
+					Thread.sleep(1500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+				}
+				if(distanceBasedOnUnltrasonic < noResultOnUltrasonic){
+					return distanceBasedOnUnltrasonic / diameterOfWheel;
+				}
 			}
 			i += 5;
 		}
 		return 255;
 	}
 
-	public void gefundenesObjektAnsteuerungUndGreifen() {
-		bewegenMitLinienScan(distanceBasedOnUnltrasonic);
+	public boolean gefundenesObjektAnsteuerungUndGreifen() {
+		controllUnit.travel(distanceBasedOnUnltrasonic, true);
+		while (controllUnit.isMoving()) {
+			if (lightSensor.readValue() >= whiteTapeLightReading) {
+				return false;
+			}
+		}
 		schliesseGreifarm();
+		System.exit(0);
+		return true;
 	}
 
 	public void schliesseGreifarm() {
@@ -99,6 +120,20 @@ public class MainClass {
 				controllUnit.travel(-15 / diameterOfWheel);
 				drehenMitSuchfunktion(120);
 			}
+			
+			distanceBasedOnUnltrasonic = ultraSensor.getDistance();
+			if (distanceBasedOnUnltrasonic != noResultOnUltrasonic) {
+				if(gefundenesObjektAnsteuerungUndGreifen()){
+					//
+					/*TODO: 
+					mainLoopCondition = false;
+					REturn to base
+					*///
+					
+				}
+			}
 		}
 	}
+	
+	
 }
