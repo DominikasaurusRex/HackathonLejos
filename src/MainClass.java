@@ -35,8 +35,8 @@ public class MainClass {
 		movethread = new Move(controllUnit);
 	
 		
-		scanthread.run();
-		movethread.run();
+		scanthread.start();
+		movethread.start();
 		
 		while(true){
 			if(changedVariables){
@@ -44,7 +44,7 @@ public class MainClass {
 				
 				movethread.interrupt();
 				movethread = new Move(controllUnit);
-				movethread.run();
+				movethread.start();
 				changedVariables = false;
 			}
 		}
