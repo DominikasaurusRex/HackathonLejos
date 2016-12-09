@@ -21,21 +21,16 @@ public class MainClass {
 
 	int noResultOnUltrasonic = 255;
 	int whiteTapeLightReading = 30;
+	float diameterOfWheel = 2.25f;
 
 	public void mainLoop() {
 		while (mainLoopCondition) {
-			controllUnit.travel(50, true);
-
-			if (lightSensor.readValue() >= whiteTapeLightReading) {
-				controllUnit.travel(-15);
-				drehenMitSuchfunktion(120);
-			} else {
-				distanceBasedOnUnltrasonic = ultraSensor.getDistance();
-				if (distanceBasedOnUnltrasonic != noResultOnUltrasonic) {
-					gefundenesObjektAnsteuerungUndGreifen();
-					mainLoopCondition = false; 
-					//TODO: dont do this later  und returnToBase;
-				}
+			bewegenMitLinienScan(1);
+			distanceBasedOnUnltrasonic = ultraSensor.getDistance();
+			if (distanceBasedOnUnltrasonic != noResultOnUltrasonic) {
+				gefundenesObjektAnsteuerungUndGreifen();
+				mainLoopCondition = false;
+				// TODO: dont do this later und returnToBase;
 			}
 
 			if (emergencyButton.isPressed()) {
@@ -43,10 +38,11 @@ public class MainClass {
 				mainLoopCondition = false;
 			}
 		}
-		
+
 		System.out.println("Distance: " + controllUnit.getMovement().getDistanceTraveled());
 
 		Button.waitForAnyPress();
+
 	}
 
 	public static void main(String[] args) {
@@ -54,11 +50,11 @@ public class MainClass {
 		traveler.controllUnit = new DifferentialPilot(2.25f, 5.5f, Motor.A, Motor.B);
 		traveler.mainLoopCondition = true;
 		traveler.mainLoop();
-		
-		//TODO: waypoint base
+
+		// TODO: waypoint base
 	}
 
-	public int drehenMitSuchfunktion(double grad) {
+	public float drehenMitSuchfunktion(double grad) {
 		double deg;
 		if (grad > 0) {
 			deg = 5.0;
@@ -69,8 +65,8 @@ public class MainClass {
 		for (int i = 0; i < grad;) {
 			controllUnit.rotate(deg);
 			distanceBasedOnUnltrasonic = ultraSensor.getDistance();
-			if (distanceBasedOnUnltrasonic < 255) {
-				return distanceBasedOnUnltrasonic;
+			if (distanceBasedOnUnltrasonic < noResultOnUltrasonic) {
+				return distanceBasedOnUnltrasonic / diameterOfWheel;
 			}
 			i += 5;
 		}
@@ -78,11 +74,11 @@ public class MainClass {
 	}
 
 	public void gefundenesObjektAnsteuerungUndGreifen() {
-		controllUnit.travel(distanceBasedOnUnltrasonic, true);
-		schließeGreifarm();
+		bewegenMitLinienScan(distanceBasedOnUnltrasonic);
+		schliesseGreifarm();
 	}
 
-	public void schließeGreifarm() {
+	public void schliesseGreifarm() {
 		if (greifarmOffen) {
 			Motor.C.rotate(-90);
 			greifarmOffen = false;
@@ -93,6 +89,16 @@ public class MainClass {
 		if (!greifarmOffen) {
 			Motor.C.rotate(90);
 			greifarmOffen = true;
+		}
+	}
+
+	public void bewegenMitLinienScan(int distanceToTravel) {
+		controllUnit.travel(distanceToTravel, true);
+		while (controllUnit.isMoving()) {
+			if (lightSensor.readValue() >= whiteTapeLightReading) {
+				controllUnit.travel(-15 / diameterOfWheel);
+				drehenMitSuchfunktion(120);
+			}
 		}
 	}
 }
