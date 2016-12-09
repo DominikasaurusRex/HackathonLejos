@@ -10,7 +10,7 @@ public class Scan extends Thread {
 	int distanceBasedOnUnltrasonic;
 	int lightValue;
 	boolean buttonPress;
-	boolean mainLoopCondition;
+	boolean mainLoopCondition = true;
 
 	int noResultOnUltrasonic = 255;
 	int whiteTapeLightReading = 30;
