@@ -48,4 +48,23 @@ public class MainClass {
         traveler.go();
     }
    
+    public int drehen(double grad){ 
+    	grad = grad/5.0;
+    	double deg;
+    	if(grad > 0){
+    		deg = 5.0;
+    	}else{
+    		deg = -5.0;
+    	}
+    	
+    	for(int i = 0; i < grad; i++){
+    		int dist = ultra.getDistance();
+    		if(dist < 255) {
+    			return dist;
+    		}else{
+    			pilot.rotate(deg);
+    		}
+    	}
+    	return 255;
+    }
 }
