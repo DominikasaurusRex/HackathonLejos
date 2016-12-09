@@ -12,8 +12,9 @@ public class Move extends Thread {
 		controllUnit = cont;
 	}
 
-	public synchronized void run() {
-		while (maincond) {
+	public void run() {
+		while(true){
+			while (maincond) {
 			if (MainClass.emergencyBreak) {
 				controllUnit.quickStop();
 				System.exit(0);
@@ -35,6 +36,7 @@ public class Move extends Thread {
 			}
 		}
 	}
+	}
 
 	public void schliesseGreifarm() {
 		if (greifarmOffen) {
@@ -53,6 +55,7 @@ public class Move extends Thread {
 	public synchronized void pause(){
 		try {
 			wait();
+			System.out.println("paused");
 		} catch (InterruptedException e) {
 			System.out.println("interruptedexception");
 			e.printStackTrace();
