@@ -25,7 +25,7 @@ public class Scan extends Thread {
 		while (mainLoopCondition) {
 			distanceBasedOnUnltrasonic = ultraSensor.getDistance();
 			lightValue = lightSensor.readValue();
-
+			System.out.println(lightValue);
 
 			if (distanceBasedOnUnltrasonic <= noResultOnUltrasonic) {
 				System.out.println("object gefunden");
