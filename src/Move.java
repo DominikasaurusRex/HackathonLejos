@@ -50,7 +50,7 @@ public class Move extends Thread {
 		}
 	}
 	
-	public void pause(){
+	public synchronized void pause(){
 		try {
 			wait();
 		} catch (InterruptedException e) {
