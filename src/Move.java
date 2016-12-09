@@ -12,7 +12,7 @@ public class Move extends Thread {
 		controllUnit = cont;
 	}
 
-	public void run() {
+	public synchronized void run() {
 		while (maincond) {
 			if (MainClass.emergencyBreak) {
 				controllUnit.quickStop();
