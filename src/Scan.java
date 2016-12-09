@@ -41,6 +41,7 @@ public class Scan extends Thread {
 			}
 
 			if (lightValue >= whiteTapeLightReading) {
+				System.out.println("tape gefunden");
 				MainClass.linegefunden = true;
 				MainClass.changedVariables();
 			} else {
