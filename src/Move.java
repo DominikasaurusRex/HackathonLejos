@@ -49,4 +49,13 @@ public class Move extends Thread {
 			greifarmOffen = true;
 		}
 	}
+	
+	public void pause(){
+		try {
+			wait();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
