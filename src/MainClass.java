@@ -43,6 +43,12 @@ public class MainClass {
 				System.out.println("ChangedVariables!");
 				
 				movethread.maincond = false;
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				movethread.maincond = true;
 				changedVariables = false;
 			}
