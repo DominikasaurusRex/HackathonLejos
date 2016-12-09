@@ -44,7 +44,7 @@ public class MainClass {
 				
 				movethread.maincond = false;
 				try {
-					Thread.sleep(10);
+					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
