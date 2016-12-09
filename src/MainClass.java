@@ -37,6 +37,16 @@ public class MainClass {
 		
 		scanthread.run();
 		movethread.run();
+		
+		while(true){
+			if(changedVariables){
+				System.out.println("ChangedVariables!");
+				
+				movethread.interrupt();
+				movethread = new Move(controllUnit);
+				movethread.run();
+			}
+		}
 	}
 	
 	public static void changedVariables(){

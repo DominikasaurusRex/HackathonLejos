@@ -31,11 +31,11 @@ public class Scan extends Thread {
 				System.out.println("object gefunden");
 				MainClass.objectgefunden = true;
 				MainClass.distanceOnUltra = distanceBasedOnUnltrasonic;
-				MainClass.changedVariables();
+				MainClass.changedVariables = true;
 			} else {
 				if (MainClass.objectgefunden = true) {
 					MainClass.objectgefunden = false;
-					MainClass.changedVariables();
+					MainClass.changedVariables = true;
 				}
 				MainClass.objectgefunden = false;
 			}
@@ -43,7 +43,7 @@ public class Scan extends Thread {
 			if (lightValue >= whiteTapeLightReading) {
 				System.out.println("tape gefunden");
 				MainClass.linegefunden = true;
-				MainClass.changedVariables();
+				MainClass.changedVariables = true;
 			} else {
 				MainClass.linegefunden = false;
 			}
