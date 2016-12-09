@@ -6,13 +6,14 @@ public class Move extends Thread {
 	DifferentialPilot controllUnit;
 
 	boolean greifarmOffen;
+	boolean maincond = true;
 
 	public Move(DifferentialPilot cont) {
 		controllUnit = cont;
 	}
 
 	public void run() {
-		while (true) {
+		while (maincond) {
 			if (MainClass.emergencyBreak) {
 				controllUnit.quickStop();
 				System.exit(0);

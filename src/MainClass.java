@@ -42,7 +42,7 @@ public class MainClass {
 			if(changedVariables){
 				System.out.println("ChangedVariables!");
 				
-				movethread.interrupt();
+				movethread.maincond = false;
 				movethread = new Move(controllUnit);
 				movethread.start();
 				changedVariables = false;
