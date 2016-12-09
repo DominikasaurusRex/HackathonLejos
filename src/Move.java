@@ -54,7 +54,7 @@ public class Move extends Thread {
 		try {
 			wait();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			System.out.println("interruptedexception");
 			e.printStackTrace();
 		}
 	}
