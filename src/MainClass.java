@@ -45,6 +45,7 @@ public class MainClass {
 				movethread.interrupt();
 				movethread = new Move(controllUnit);
 				movethread.run();
+				changedVariables = false;
 			}
 		}
 	}
