@@ -17,7 +17,7 @@ public class Move extends Thread {
 			while (maincond) {
 			if (MainClass.emergencyBreak) {
 				controllUnit.quickStop();
-				System.exit(0);
+				System.exit(1);
 			}
 
 			if (MainClass.objectgefunden) {
